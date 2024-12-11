@@ -19,7 +19,7 @@
 6 7
 8 7
 */
-/*#include <iostream>
+#include <iostream>
 #include <cstring>
 #include <vector>
 #include<cstdio>
@@ -33,10 +33,10 @@ int pya[9] = { 200,150,250,150,250,100,300,100,300 };
 int pyb[9] = { 600,650,550,650,550,700,500,700,500 };
 const int N = 100010;
 vector<int> G[N], rG[N];
-vector<int> S;  // ´æµÚÒ»´Îdfs1()µÄ½á¹û£¬¼´±ê¼ÇµãµÄÏÈºóË³Ğò£¬ÓÅÏÈ¼¶Ğ¡µÄµãÏÈ½ø
-int vis[N];    // vis[i]±ê¼ÇµÚÒ»´Îdfs1()µãiÊÇ·ñ·ÃÎÊ¹ı
-int sccno[N];  // sccno[i]±ê¼ÇµãiÊôÓÚµÚ¼¸¸öÇ¿Á¬Í¨·ÖÁ¿£¬Í¬Ê±¼ÇÂ¼dfs2()¹ı³ÌÖĞµãiÊÇ·ñ·ÃÎÊ¹ı
-int cnt;    //cnt±íÊ¾Ç¿Á¬Í¨·ÖÁ¿µÄ¸öÊı
+vector<int> S;  // å­˜ç¬¬ä¸€æ¬¡dfs1()çš„ç»“æœï¼Œå³æ ‡è®°ç‚¹çš„å…ˆåé¡ºåºï¼Œä¼˜å…ˆçº§å°çš„ç‚¹å…ˆè¿›
+int vis[N];    // vis[i]æ ‡è®°ç¬¬ä¸€æ¬¡dfs1()ç‚¹iæ˜¯å¦è®¿é—®è¿‡
+int sccno[N];  // sccno[i]æ ‡è®°ç‚¹iå±äºç¬¬å‡ ä¸ªå¼ºè¿é€šåˆ†é‡ï¼ŒåŒæ—¶è®°å½•dfs2()è¿‡ç¨‹ä¸­ç‚¹iæ˜¯å¦è®¿é—®è¿‡
+int cnt;    //cntè¡¨ç¤ºå¼ºè¿é€šåˆ†é‡çš„ä¸ªæ•°
 char Clock1 = '1';
 void dfs1(int u) 
 {
@@ -51,7 +51,7 @@ void dfs1(int u)
     outtextxy(px[u-1]+20, pya[u-1]+20, Clock1);
     _getch();
     Clock1++;
-    S.push_back(u); //¼ÇÂ¼µãµÄÏÈºóË³Ğò£¬°´ÕÕÍØÆËÅÅĞò£¬ÓÅÏÈ¼¶´óµÄ·ÅÔÚSµÄºóÃæ
+    S.push_back(u); //è®°å½•ç‚¹çš„å…ˆåé¡ºåºï¼ŒæŒ‰ç…§æ‹“æ‰‘æ’åºï¼Œä¼˜å…ˆçº§å¤§çš„æ”¾åœ¨Sçš„åé¢
 }
 void dfs2(int u) 
 {
@@ -71,7 +71,7 @@ void Kosaraju(int n)
     S.clear();
     memset(vis, 0, sizeof(vis));
     memset(sccno, 0, sizeof(sccno));
-    for (int i = 1; i <= n; i++) //ËÑË÷ËùÓĞµã
+    for (int i = 1; i <= n; i++) //æœç´¢æ‰€æœ‰ç‚¹
         dfs1(i);
     for (int i = n - 1; i >= 0; i--)
     {
@@ -107,36 +107,36 @@ int main()
     for (int i = 0; i < m; i++) 
     {
         scanf("%d%d", &u, &v);
-        G[u].push_back(v);  // Ô­Í¼
-        rG[v].push_back(u); // ·´Í¼
+        G[u].push_back(v);  // åŸå›¾
+        rG[v].push_back(u); // åå›¾
         line(px[u - 1], pya[u - 1], px[v - 1], pya[v - 1]);
-        // ¼ÆËã¼ıÍ·Í·²¿Á½Ìõ±ßµÄ·½ÏòÏòÁ¿
+        // è®¡ç®—ç®­å¤´å¤´éƒ¨ä¸¤æ¡è¾¹çš„æ–¹å‘å‘é‡
         double dx = (px[u - 1] + px[v - 1]) / 2 - px[u - 1];
         double dy = (pya[u - 1] + pya[v - 1]) / 2 - pya[u - 1];
         double length = sqrt(dx * dx + dy * dy);
         dx /= length;
         dy /= length;
-        // ¼ÆËã¼ıÍ·Í·²¿Á½Ìõ±ßµÄÖÕµã×ø±ê
+        // è®¡ç®—ç®­å¤´å¤´éƒ¨ä¸¤æ¡è¾¹çš„ç»ˆç‚¹åæ ‡
         int arrowTipX1 = (px[u - 1] + px[v - 1]) / 2 + (int)(10 * (dy - dx));
         int arrowTipY1 = (pya[u - 1] + pya[v - 1]) / 2 - (int)(10 * (dx + dy));
         int arrowTipX2 = (px[u - 1] + px[v - 1]) / 2 - (int)(10 * (dy + dx));
         int arrowTipY2 = (pya[u - 1] + pya[v - 1]) / 2 - (int)(10 * (-dx + dy));
-        // »æÖÆ¼ıÍ·Í·²¿
+        // ç»˜åˆ¶ç®­å¤´å¤´éƒ¨
         line((px[u - 1] + px[v - 1]) / 2, (pya[u - 1] + pya[v - 1]) / 2, arrowTipX1, arrowTipY1);
         line((px[u - 1] + px[v - 1]) / 2, (pya[u - 1] + pya[v - 1]) / 2, arrowTipX2, arrowTipY2);
         line(px[v - 1],pyb[v - 1], px[u - 1], pyb[u - 1]);
-        // ¼ÆËã¼ıÍ·Í·²¿Á½Ìõ±ßµÄ·½ÏòÏòÁ¿
+        // è®¡ç®—ç®­å¤´å¤´éƒ¨ä¸¤æ¡è¾¹çš„æ–¹å‘å‘é‡
         double dx1 = (px[v - 1] + px[u - 1]) / 2 - px[v - 1];
         double dy1 = (pyb[v - 1] + pyb[u - 1]) / 2 - pyb[v - 1];
         double length1 = sqrt(dx1 * dx1 + dy1 * dy1);
         dx1 /= length1;
         dy1 /= length1;
-        // ¼ÆËã¼ıÍ·Í·²¿Á½Ìõ±ßµÄÖÕµã×ø±ê
+        // è®¡ç®—ç®­å¤´å¤´éƒ¨ä¸¤æ¡è¾¹çš„ç»ˆç‚¹åæ ‡
         int arrowTipX11 = (px[v - 1] + px[u - 1]) / 2 + (int)(10 * (dy1 - dx1));
         int arrowTipY11 = (pyb[v - 1] + pyb[u - 1]) / 2 - (int)(10 * (dx1 + dy1));
         int arrowTipX21 = (px[v - 1] + px[u - 1]) / 2 - (int)(10 * (dy1 + dx1));
         int arrowTipY21 = (pyb[v - 1] + pyb[u - 1]) / 2 - (int)(10 * (-dx1 + dy1));
-        // »æÖÆ¼ıÍ·Í·²¿
+        // ç»˜åˆ¶ç®­å¤´å¤´éƒ¨
         line((px[v - 1] + px[u - 1]) / 2, (pyb[v - 1] + pyb[u - 1]) / 2, arrowTipX11, arrowTipY11);
         line((px[v - 1] + px[u - 1]) / 2, (pyb[v - 1] + pyb[u - 1]) / 2, arrowTipX21, arrowTipY21);
     }
@@ -146,4 +146,4 @@ int main()
     _getch();
     closegraph();
     return 0;
-}*/
+}
