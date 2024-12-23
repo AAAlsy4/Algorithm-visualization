@@ -1,3 +1,3 @@
 # Algorithm-visualization
-a algorithm visualization project
+an algorithm visualization project
 
